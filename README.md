@@ -1,6 +1,6 @@
 # Pune PMPML Bus APP
 
-This is a simple C++ program that will the source bus stop and the destination bus stop, of Pune PMPML, from the user and display the time, distance and shortest route to reach the destination. All the information abot but stops are read from pmpml.csv file. We can also add or delete bus stops to the file.
+This is a simple C++ program that will the source bus stop and the destination bus stop, of Pune PMPML, from the user and display the time, distance and shortest route to reach the destination. All the information about but stops are read from pmpml.csv file. We can also add or delete bus stops to the file.
 
 It is implemented using [Graph](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)) data structures. The graph has nodes and edges. Nodes represent a bus stops that will be containing the name. Edges (the connection between two nodes) represent the distance between the two bus stops and the average time to reach other end.
 
