@@ -150,29 +150,10 @@ It is the class for storing the Graph.
 /*
 _Key: The type of the vertex
 _Tp: The type of the cost of the edge
-_Edge: The type of Edge class which has the adjacent vertex and the cost of the edge
-*/
-template<class _Key, class _Tp, class _Edge=Edge<_Key, _Tp>>
-/*
-It is the struct used to decide what cost(time, distance) to use for Dijkstra algorithm.
-*/
-struct compareTo{
-    _Tp returnVal (_Edge a, _Key v, int edgeCost){
-        if(edgeCost == 0){
-            return a.getDistance(v);
-        }
-        
-        return a.getTime(v);
-    }
-};
-
-/*
-_Key: The type of the vertex
-_Tp: The type of the cost of the edge
 _Value: The type of Edge class which has the adjacent vertex and the cost of the edge
 _CompareTo: The type of CompareTo class which has the cost of the edge
 */
-template<class _Key, class _Tp, class _Value=Edge<_Key, _Tp>, class _CompareTo=compareTo<_Key, _Tp>>
+template<class _Key, class _Tp, class _Value=Edge<_Key, _Tp>>
 /*
 It is the class of Dijkstra algorithm.
 */
@@ -180,17 +161,19 @@ class Dijkstra{
     Graph<_Key, _Tp> *graph;
 
     public:
-        Dijkstra(Graph<_Key, _Tp> *g, _CompareTo *compareTo){
-            graph = g;
-            this->compareTo = compareTo;
-        }
-
         Dijkstra(Graph<_Key, _Tp> *g){
             graph = g;
-            this->compareTo = new CompareTo<_Key, _Tp>();
         }
 
-        pair<vector<_Key>, _Tp> dijkstraAlgo(_Key src, _Key dest){
+        _Tp compareTo(_Value a, _Key v, int edgeCost=0){
+            if(edgeCost == 0){
+                return a.getDistance(v);
+            }
+            
+            return a.getTime(v);
+        }
+
+        pair<vector<_Key>, _Tp> dijkstraAlgo(_Key src, _Key dest, int edgeCost=0){
             priority_queue<pair<_Tp, _Key>> pq;     //It is used to store the vertex and the cost of the vertex.
             unordered_map<_Key, pair<_Tp, vector<_Key>>> distPath;  //It is used to store the distance and the path of the vertex.
 
@@ -207,10 +190,10 @@ class Dijkstra{
                 for(auto edges=v.second.begin(); edges!=v.second.end(); edges++){
                     if(
                         distPath.find(edges->first) == distPath.end() ||
-                        (distPath[edges->first].first > distPath[p.second].first + compareTo->returnVal(v.second, edges->first))
+                        (distPath[edges->first].first > distPath[p.second].first + compareTo(v.second, edges->first, edgeCost))
                     ){
                         pair<_Tp, vector<_Key>> temp;
-                        temp.first = distPath[p.second].first + compareTo->returnVal(v.second, edges->first);
+                        temp.first = distPath[p.second].first + compareTo(v.second, edges->first, edgeCost);
                         temp.second = distPath[p.second].second;
                         temp.second.push_back(edges->first);
                         distPath[edges->first] = temp;
@@ -228,4 +211,4 @@ class Dijkstra{
         }
 };
 
-#endif
+#endif // DIJKSTRA_HPP_INCLUDED
