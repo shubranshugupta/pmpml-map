@@ -1,10 +1,15 @@
 #pragma once
-#include <bits/stdc++.h>
+#include <vector>
+#include<map>
+#include<string>
 
 using namespace std;
 
 #ifndef GRAPH_H
 #define GRAPH_H
+
+namespace GraphNS{
+
 /*
 _Key: It is the adjacent vertex of the current vertex.
 _Tp: It is the type of cost of the edge.
@@ -77,6 +82,14 @@ It is the class for storing the Graph.
     protected:
         map<_Key, _Value> graph;
 
+        _Tp compareTo(_Value a, _Key v, int edgeCost=0){
+            if(edgeCost == 0){
+                return a.getDistance(v);
+            }
+            
+            return a.getTime(v);
+        }
+
     public:
         void addVertex(_Key v){
             graph[v] = Edge<_Key, _Tp>();
@@ -144,34 +157,6 @@ It is the class for storing the Graph.
             }
             return count/2;
         }
-};
-
-
-/*
-_Key: The type of the vertex
-_Tp: The type of the cost of the edge
-_Value: The type of Edge class which has the adjacent vertex and the cost of the edge
-_CompareTo: The type of CompareTo class which has the cost of the edge
-*/
-template<class _Key, class _Tp, class _Value=Edge<_Key, _Tp>>
-/*
-It is the class of Dijkstra algorithm.
-*/
-class Dijkstra{
-    Graph<_Key, _Tp> *graph;
-
-    public:
-        Dijkstra(Graph<_Key, _Tp> *g){
-            graph = g;
-        }
-
-        _Tp compareTo(_Value a, _Key v, int edgeCost=0){
-            if(edgeCost == 0){
-                return a.getDistance(v);
-            }
-            
-            return a.getTime(v);
-        }
 
         pair<vector<_Key>, _Tp> dijkstraAlgo(_Key src, _Key dest, int edgeCost=0){
             priority_queue<pair<_Tp, _Key>> pq;     //It is used to store the vertex and the cost of the vertex.
@@ -185,7 +170,7 @@ class Dijkstra{
                 pair<_Tp, _Key> p = pq.top();
                 pq.pop();
 
-                pair<_Key, _Value> v = graph->getVertex(p.second);
+                pair<_Key, _Value> v = this->getVertex(p.second);
 
                 for(auto edges=v.second.begin(); edges!=v.second.end(); edges++){
                     if(
@@ -210,5 +195,7 @@ class Dijkstra{
             return result;
         }
 };
+
+}
 
 #endif // DIJKSTRA_HPP_INCLUDED
