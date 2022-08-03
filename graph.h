@@ -82,12 +82,8 @@ It is the class for storing the Graph.
     protected:
         map<_Key, _Value> graph;
 
-        _Tp compareTo(_Value a, _Key v, int edgeCost=0){
-            if(edgeCost == 0){
-                return a.getDistance(v);
-            }
-            
-            return a.getTime(v);
+        pair<_Tp, _Tp> getCost(_Value a, _Key v){
+            return {a.getDistance(v), a.getTime(v)};
         }
 
     public:
@@ -158,12 +154,12 @@ It is the class for storing the Graph.
             return count/2;
         }
 
-        pair<vector<_Key>, _Tp> dijkstraAlgo(_Key src, _Key dest, int edgeCost=0){
+        pair<vector<_Key>, pair<_Tp, _Tp>> dijkstraAlgo(_Key src, _Key dest){
             priority_queue<pair<_Tp, _Key>> pq;     //It is used to store the vertex and the cost of the vertex.
-            unordered_map<_Key, pair<_Tp, vector<_Key>>> distPath;  //It is used to store the distance and the path of the vertex.
+            unordered_map<_Key, pair<pair<_Tp, _Tp>, vector<_Key>>> distPath;  //It is used to store the distance and the path of the vertex.
 
             pq.push(make_pair(0, src));
-            distPath[src] = pair<_Tp, vector<_Key>>(0, vector<_Key>());
+            distPath[src] = pair<pair<_Tp, _Tp>, vector<_Key>>({0, 0}, vector<_Key>());
             distPath[src].second.push_back(src);
 
             while(!pq.empty()){
@@ -173,24 +169,27 @@ It is the class for storing the Graph.
                 pair<_Key, _Value> v = this->getVertex(p.second);
 
                 for(auto edges=v.second.begin(); edges!=v.second.end(); edges++){
+                    pair<_Tp, _Tp> cost = this->getCost(v.second, edges->first);
                     if(
                         distPath.find(edges->first) == distPath.end() ||
-                        (distPath[edges->first].first > distPath[p.second].first + compareTo(v.second, edges->first, edgeCost))
+                        (distPath[edges->first].first.first > distPath[p.second].first.first + cost.first)
                     ){
-                        pair<_Tp, vector<_Key>> temp;
-                        temp.first = distPath[p.second].first + compareTo(v.second, edges->first, edgeCost);
+                        pair<pair<_Tp, _Tp>, vector<_Key>> temp;
+                        temp.first.first = distPath[p.second].first.first + cost.first;
+                        temp.first.second = distPath[p.second].first.second + cost.second;
                         temp.second = distPath[p.second].second;
                         temp.second.push_back(edges->first);
                         distPath[edges->first] = temp;
 
-                        pq.push(make_pair(distPath[edges->first].first, edges->first));
+                        pq.push(make_pair(distPath[edges->first].first.first, edges->first));
                     }
                 }
             }
             
-            pair<vector<_Key>, _Tp> result;
+            pair<vector<_Key>, pair<_Tp, _Tp>> result;
             result.first = distPath[dest].second;
-            result.second = distPath[dest].first;
+            result.second.first = distPath[dest].first.first;
+            result.second.second = distPath[dest].first.second;
 
             return result;
         }

@@ -8,7 +8,7 @@ template<class _Key, class _Tp, class _Value=Edge<_Key, _Tp>>
 class PMPMLMap: private Graph<_Key, _Tp, _Value>{
     private:
         string fname;
-        int maxLength=INT_MIN, distOrTime=0;
+        int maxLength=INT_MIN;
         _Key src, dest;
 
         void centerWords(vector<_Key> &vec, const char& delimiter = '|'){
@@ -109,15 +109,13 @@ class PMPMLMap: private Graph<_Key, _Tp, _Value>{
             getline(cin, src);
             cout<<"Enter destination stop: ";
             getline(cin, dest);
-            cout<<"Do you want minimum distance or time? (0 for distance, 1 for time): ";
-            cin>>distOrTime;
             cout<<endl;
         }
 
         void findShortestPath(){
             cout<<"Finding shortest path..."<<endl;
             
-            pair<vector<_Key>, _Tp> ans = this->dijkstraAlgo(src, dest, distOrTime);
+            pair<vector<_Key>, pair<_Tp, _Tp>> ans = this->dijkstraAlgo(src, dest);
             
             cout<<"Shortest path from "<<src<<" to "<<dest<<" is: "<<endl;    
             for(int i=0; i<ans.first.size(); i++){
@@ -128,7 +126,8 @@ class PMPMLMap: private Graph<_Key, _Tp, _Value>{
                 }
             }
             cout<<endl;
-            cout<<"Distance: "<<ans.second<<endl;
+            cout<<"Distance: "<<ans.second.first<<" M"<<endl;
+            cout<<"Total Time: "<<ans.second.second<<" Min"<<endl;
 
             printMultiple('=', 122, true);
         }
