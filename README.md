@@ -16,11 +16,8 @@ It uses [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algori
 
 ```bash
 git clone https://github.com/shubranshugupta/pmpml-map.git
-
 cd pmpml-map
-
 g++ -Iinclude pmpml.cpp -o pmpml.exe
-
 pmpml.exe
 ```
 
@@ -30,8 +27,6 @@ pmpml.exe
 
 ```bash
 git clone https://github.com/shubranshugupta/pmpml-map.git
-
 cd pmpml-map
-
 make
 ```
