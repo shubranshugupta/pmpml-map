@@ -8,7 +8,7 @@ It uses [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algori
 
 ## Sample Image
 
-![Sample Image]()
+![Sample Image](https://github.com/shubranshugupta/pmpml-map/blob/c76d7b7ed90ed826c68f6f528c429dd76b4b2f1e/images/Img1.png)
 
 ## How to use it?
 
