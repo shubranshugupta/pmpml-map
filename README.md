@@ -6,14 +6,32 @@ It is implemented using [Graph](https://en.wikipedia.org/wiki/Graph_(abstract_da
 
 It uses [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm), to find the shortest path between the source bus stop and the destination bus stop. Finally, route between the two stations, total distance and time are displayed.
 
+## Sample Image
+
+![Sample Image]()
+
 ## How to use it?
+
+### Direct Compilation
 
 ```bash
 git clone https://github.com/shubranshugupta/pmpml-map.git
 
 cd pmpml-map
 
-g++ -o pmpml_map.exe pmpml-map.cpp
+g++ -o pmpml.exe pmpml.cpp
 
-./pmpml_map.exe
+./pmpml.exe
+```
+
+### Using Make
+
+**Note:** Make sure you have [Make](https://www.gnu.org/software/make/) installed.
+
+```bash
+git clone https://github.com/shubranshugupta/pmpml-map.git
+
+cd pmpml-map
+
+make
 ```
