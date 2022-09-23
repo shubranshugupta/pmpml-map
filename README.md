@@ -19,9 +19,9 @@ git clone https://github.com/shubranshugupta/pmpml-map.git
 
 cd pmpml-map
 
-g++ -o pmpml.exe pmpml.cpp
+g++ -Iinclude pmpml.cpp -o pmpml.exe
 
-./pmpml.exe
+pmpml.exe
 ```
 
 ### Using Make
